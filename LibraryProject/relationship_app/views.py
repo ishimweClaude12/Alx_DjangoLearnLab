@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.detail import DetailView
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.decorators import user_passes_test, permission_required
 from .models import Book
 from .models import Library
 
@@ -109,6 +109,75 @@ def member_view(request):
     Member view - accessible only to users with Member role.
     """
     return render(request, 'relationship_app/member_view.html')
+
+
+# Permission-Based Views for Book Operations
+
+@permission_required('relationship_app.can_add_book', raise_exception=True)
+def add_book(request):
+    """
+    Add a new book - requires can_add_book permission.
+    """
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author_id = request.POST.get('author_id')
+        if title and author_id:
+            from .models import Author
+            try:
+                author = Author.objects.get(id=author_id)
+                Book.objects.create(title=title, author=author)
+                return redirect('list_books')
+            except Author.DoesNotExist:
+                pass
+    
+    from .models import Author
+    authors = Author.objects.all()
+    return render(request, 'relationship_app/add_book.html', {'authors': authors})
+
+
+@permission_required('relationship_app.can_change_book', raise_exception=True)
+def edit_book(request, book_id):
+    """
+    Edit an existing book - requires can_change_book permission.
+    """
+    try:
+        book = Book.objects.get(id=book_id)
+    except Book.DoesNotExist:
+        return redirect('list_books')
+    
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        author_id = request.POST.get('author_id')
+        if title and author_id:
+            from .models import Author
+            try:
+                author = Author.objects.get(id=author_id)
+                book.title = title
+                book.author = author
+                book.save()
+                return redirect('list_books')
+            except Author.DoesNotExist:
+                pass
+    
+    from .models import Author
+    authors = Author.objects.all()
+    return render(request, 'relationship_app/edit_book.html', {'book': book, 'authors': authors})
+
+
+@permission_required('relationship_app.can_delete_book', raise_exception=True)
+def delete_book(request, book_id):
+    """
+    Delete a book - requires can_delete_book permission.
+    """
+    try:
+        book = Book.objects.get(id=book_id)
+        if request.method == 'POST':
+            book.delete()
+            return redirect('list_books')
+        return render(request, 'relationship_app/delete_book.html', {'book': book})
+    except Book.DoesNotExist:
+        return redirect('list_books')
+
 
 
 
