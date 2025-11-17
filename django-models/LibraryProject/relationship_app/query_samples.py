@@ -27,8 +27,8 @@ def query_books_by_author(author_name):
         # Get the author by name
         author = Author.objects.get(name=author_name)
         
-        # Query all books by this author using the related_name 'books'
-        books = author.books.all()
+        # Query all books by this author using objects.filter
+        books = Book.objects.filter(author=author)
         
         print(f"\nBooks by {author_name}:")
         for book in books:
