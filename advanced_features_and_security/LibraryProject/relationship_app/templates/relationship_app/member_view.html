@@ -1,0 +1,23 @@
+<!-- member_view.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Member Dashboard</title>
+  </head>
+  <body>
+    <h1>Member Dashboard</h1>
+    <p>Welcome, {{ user.username }}! You have Member access.</p>
+    <p>
+      This is the Member view where you can browse and access library resources.
+    </p>
+    <ul>
+      <li>Browse books</li>
+      <li>View borrowed books</li>
+      <li>Search library catalog</li>
+      <li>Request books</li>
+    </ul>
+    <a href="{% url 'logout' %}">Logout</a>
+  </body>
+</html>
