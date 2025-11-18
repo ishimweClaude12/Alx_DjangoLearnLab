@@ -126,3 +126,33 @@ class CustomUser(AbstractUser):
                 age -= 1
             return age
         return None
+
+
+class Document(models.Model):
+    """
+    Document model with custom permissions for access control.
+    
+    This model demonstrates the use of custom permissions to control
+    viewing, creating, editing, and deleting documents.
+    """
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_by = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='documents'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        permissions = [
+            ('can_view', 'Can view document'),
+            ('can_create', 'Can create document'),
+            ('can_edit', 'Can edit document'),
+            ('can_delete', 'Can delete document'),
+        ]
+
+    def __str__(self):
+        return self.title
+
