@@ -89,6 +89,12 @@ class Book(models.Model):
         related_name='books_added'
     )
     
+    class Meta:
+        permissions = [
+            ('can_create', 'Can create book'),
+            ('can_delete', 'Can delete book'),
+        ]
+    
     def __str__(self):
         return self.title
 
