@@ -1,21 +1,13 @@
-<!-- admin_view.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
-  </head>
-  <body>
-    <h1>Admin Dashboard</h1>
-    <p>Welcome, {{ user.username }}! You have Admin access.</p>
-    <p>This is the Admin view where you can manage the system.</p>
-    <ul>
-      <li>Manage users</li>
-      <li>View all libraries</li>
-      <li>Manage books and authors</li>
-      <li>System settings</li>
-    </ul>
-    <a href="{% url 'logout' %}">Logout</a>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Admin Panel Access Granted!</h1>
+    <p>{{ message }}</p>
+    <p>You have full system access.</p>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+</body>
 </html>

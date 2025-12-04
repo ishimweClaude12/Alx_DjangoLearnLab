@@ -1,0 +1,14 @@
+# Django Security Implementation - Requirements
+# Install with: pip install -r requirements.txt
+
+# Core Framework
+Django>=5.2,<6.0
+
+# Security Enhancement
+django-csp>=3.8  # Content Security Policy middleware
+
+# Image Handling (for CustomUser profile_photo)
+Pillow>=10.0.0
+
+# Development Dependencies (remove in production)
+# None required for basic security implementation
